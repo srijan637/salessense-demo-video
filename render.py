@@ -145,8 +145,8 @@ class Demo:
 
     def type(self, loc, text, delay=35):
         self.click(loc)
-        self.page.keyboard.press("Control+A")
-        self.page.keyboard.type(text, delay=delay)
+        loc.fill("")
+        loc.press_sequentially(text, delay=delay)
 
     def select(self, label, value):
         box = self.page.get_by_label(label, exact=True)
@@ -162,9 +162,9 @@ class Demo:
     def number(self, label, value):
         box = self.page.get_by_label(label, exact=True)
         self.click(box)
-        self.page.keyboard.press("Control+A")
-        self.page.keyboard.type(str(value), delay=60)
-        self.page.keyboard.press("Tab")
+        box.fill("")
+        box.press_sequentially(str(value), delay=60)
+        box.press("Tab")
 
     def scroll(self, pixels, step=90, pause=0.035):
         self.page.mouse.move(W * 0.62, H * 0.6)
@@ -302,6 +302,7 @@ def run_scenes(browser, record):
         dur = wav_seconds(AUD / f"{name}.wav")
         start = time.monotonic() - t0
         act(name, d)
+        page.evaluate("window.getSelection().removeAllRanges()")
         page.evaluate(CURSOR_JS) if name in ("intro", "close") else None
         elapsed = time.monotonic() - t0 - start
         if record:
@@ -336,7 +337,7 @@ def main():
         ms = int(t["start"] * 1000)
         filters.append(f"[{i}:a]aresample=48000,adelay={ms}|{ms}[a{i}]")
         labels.append(f"[a{i}]")
-    filters.append("".join(labels) + f"amix=inputs={len(labels)}:normalize=0:dropout_transition=0,volume=1.6[aout]")
+    filters.append("".join(labels) + f"amix=inputs={len(labels)}:normalize=0:dropout_transition=0,volume=1.25,alimiter=limit=0.9[aout]")
     cmd = ["ffmpeg", "-y", *inputs, "-filter_complex", ";".join(filters), "-map", "0:v", "-map", "[aout]",
            "-c:v", "libx264", "-preset", "medium", "-crf", "22", "-pix_fmt", "yuv420p", "-r", "30",
            "-c:a", "aac", "-b:a", "160k", "-movflags", "+faststart", str(OUT / "SalesSense_AI_Demo.mp4")]
