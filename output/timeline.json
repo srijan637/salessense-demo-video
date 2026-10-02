@@ -1,0 +1,44 @@
+[
+ {
+  "scene": "intro",
+  "start": 0.0,
+  "audio": 16.08,
+  "actions": 11.37
+ },
+ {
+  "scene": "rules",
+  "start": 16.78,
+  "audio": 23.08,
+  "actions": 4.11
+ },
+ {
+  "scene": "technova",
+  "start": 40.56,
+  "audio": 22.48,
+  "actions": 27.18
+ },
+ {
+  "scene": "dashboard",
+  "start": 67.74,
+  "audio": 26.24,
+  "actions": 19.12
+ },
+ {
+  "scene": "validation",
+  "start": 94.68,
+  "audio": 16.16,
+  "actions": 6.61
+ },
+ {
+  "scene": "safety",
+  "start": 111.54,
+  "audio": 14.44,
+  "actions": 11.27
+ },
+ {
+  "scene": "close",
+  "start": 126.68,
+  "audio": 12.6,
+  "actions": 3.96
+ }
+]
